@@ -1,6 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+public enum State
+{
+    Idle = 0,
+    Move = 1,
+    Attack = 2,
+    Hit = 3,
+    Die = 4,
+}
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -17,16 +24,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public State PlayerState { get; private set; } = State.Idle;
+
+    [SerializeField] private Animator animator;
+
     private Rigidbody _rigidbody;
     private float _speed = 5f;
+    private PlayerAttack _playerAttack;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-    }
-
-    private void Update()
-    {
+        _playerAttack = GetComponent<PlayerAttack>();
     }
 
     private void FixedUpdate()
@@ -37,8 +46,27 @@ public class PlayerMovement : MonoBehaviour
 
             _rigidbody.velocity = joystickDirection * _speed;
             _rigidbody.rotation = Quaternion.LookRotation(joystickDirection);
+
+            ChangeState(State.Move);
         }
         else
+        {
             _rigidbody.velocity = Vector3.zero;
+
+            if (_playerAttack.HasTarget)
+                ChangeState(State.Attack);
+            else
+                ChangeState(State.Idle);
+        }
+    }
+
+    private void ChangeState(State state)
+    {
+        if (PlayerState == state)
+            return;
+
+        PlayerState = state;
+
+        animator.SetInteger("State", (int)PlayerState);
     }
 }
