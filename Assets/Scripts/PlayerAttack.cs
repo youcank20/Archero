@@ -6,15 +6,20 @@ public class PlayerAttack : MonoBehaviour
     public List<GameObject> EnemyList = new List<GameObject>();
     public bool HasTarget { get; private set; } = false;
 
+    [SerializeField] private GameObject arrowPrefab;
+    [SerializeField] private Transform arrowTransform;
+
     private int _targetIndex;
     private float _targetDistance;
     private Rigidbody _rigidbody;
+    private PlayerMovement _playerMovement;
 
     private const float MAX_DISTANCE = 10f;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _playerMovement = GetComponent<PlayerMovement>();
     }
 
     private void Update()
@@ -46,5 +51,15 @@ public class PlayerAttack : MonoBehaviour
         }
         else
             HasTarget = false;
+    }
+
+    private void ShootAnArrow()
+    {
+        if (_playerMovement.PlayerState != State.Attack)
+            return;
+
+        GameObject arrow = Instantiate(arrowPrefab, arrowTransform.position, Quaternion.identity);
+
+        arrow.transform.rotation = transform.rotation;
     }
 }
