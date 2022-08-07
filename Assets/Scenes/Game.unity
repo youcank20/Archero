@@ -9830,8 +9830,21 @@ MonoBehaviour:
   parentRoom: {fileID: 1534222981}
   roomName: Room01
   position: {x: 20, y: 0, z: 0}
-  length: 5
+  length: 31
   roomObjectPrefab: {fileID: 1979290889500462, guid: 98dd8e405a3f26848b63e1b78dfb7c5b, type: 3}
+  stairsPrefab: {fileID: 1593169746609854, guid: 3cf1b9c6c7c4d584288f0e9300b6190d, type: 3}
+  doorPrefab: {fileID: 1363764433840838, guid: 682b0fd0345d74af8a7137fc7d72b34a, type: 3}
+  stonePrefab: {fileID: 1400228509039700, guid: 1e3e89a9932575644ae6697c585dc150, type: 3}
+  halfStonePrefab: {fileID: 1620647005149138, guid: d4648d15da2d3ad4990015204a112802, type: 3}
+  obstacles:
+  - objectPrefab: {fileID: 1400228509039700, guid: 1e3e89a9932575644ae6697c585dc150, type: 3}
+    positions:
+    - {x: -4, y: 0.5, z: 0}
+    - {x: -3, y: 0.5, z: 0}
+    - {x: -2, y: 0.5, z: 0}
+    - {x: 2, y: 0.5, z: 0}
+    - {x: 3, y: 0.5, z: 0}
+    - {x: 4, y: 0.5, z: 0}
 --- !u!1 &2054140751
 GameObject:
   m_ObjectHideFlags: 0
