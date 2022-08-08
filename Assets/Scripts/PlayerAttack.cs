@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     public List<GameObject> EnemyList = new List<GameObject>();
-    public bool HasTarget { get; private set; } = false;
+    public bool HasTarget => _hasTarget;
 
     [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private Transform arrowTransform;
@@ -13,6 +13,7 @@ public class PlayerAttack : MonoBehaviour
     private float _targetDistance;
     private int _closestIndex;
     private float _closestDistance;
+    private bool _hasTarget = false;
     private Rigidbody _rigidbody;
     private PlayerMovement _playerMovement;
 
@@ -64,20 +65,20 @@ public class PlayerAttack : MonoBehaviour
             if (_targetIndex == -1)
             {
                 if (_closestIndex == -1)
-                    HasTarget = false;
+                    _hasTarget = false;
                 else
                     _targetIndex = _closestIndex;
             }
 
             if (_targetIndex != -1)
             {
-                HasTarget = true;
+                _hasTarget = true;
 
                 _rigidbody.rotation = Quaternion.LookRotation(EnemyList[_targetIndex].transform.position - transform.position);
             }
         }
         else
-            HasTarget = false;
+            _hasTarget = false;
     }
 
     private void ShootAnArrow()
