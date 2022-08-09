@@ -5,7 +5,7 @@ public enum State
     Idle = 0,
     Move = 1,
     Attack = 2,
-    Hit = 3,
+    Hitted = 3,
     Die = 4,
 }
 
