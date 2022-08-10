@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -72,9 +73,12 @@ public class PlayerAttack : MonoBehaviour
 
             if (_targetIndex != -1)
             {
+                if (_playerMovement.PlayerState == State.Move)
+                    return;
+
                 _hasTarget = true;
 
-                _rigidbody.rotation = Quaternion.LookRotation(EnemyList[_targetIndex].transform.position - transform.position);
+                transform.LookAt(EnemyList[_targetIndex].transform.position);
             }
         }
         else

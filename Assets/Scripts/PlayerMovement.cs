@@ -44,15 +44,13 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector3 joystickDirection = new Vector3(Joystick.Instance.NormalizedDirection.x, 0, Joystick.Instance.NormalizedDirection.y);
 
-            _rigidbody.velocity = joystickDirection * _speed;
-            _rigidbody.rotation = Quaternion.LookRotation(joystickDirection);
+            transform.Translate(joystickDirection * _speed * Time.deltaTime, Space.World);
+            transform.LookAt(transform.position + joystickDirection);
 
             ChangeState(State.Move);
         }
         else
         {
-            _rigidbody.velocity = Vector3.zero;
-
             if (_playerAttack.HasTarget)
                 ChangeState(State.Attack);
             else
