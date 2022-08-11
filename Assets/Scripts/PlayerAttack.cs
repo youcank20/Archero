@@ -78,7 +78,7 @@ public class PlayerAttack : MonoBehaviour
 
                 _hasTarget = true;
 
-                transform.LookAt(EnemyList[_targetIndex].transform.position);
+                _playerMovement.LookAt(EnemyList[_targetIndex].transform.position);
             }
         }
         else
@@ -92,6 +92,6 @@ public class PlayerAttack : MonoBehaviour
 
         GameObject arrow = Instantiate(arrowPrefab, arrowTransform.position, Quaternion.identity);
 
-        arrow.transform.rotation = transform.rotation;
+        arrow.transform.rotation = _playerMovement.GetRotation();
     }
 }
