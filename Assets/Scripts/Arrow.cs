@@ -13,7 +13,8 @@ public class Arrow : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            gameObject.SetActive(false);
+            if (PlayerSkill.Instance.playerAbilities[3] == 0)
+                gameObject.SetActive(false);
         }
     }
 }

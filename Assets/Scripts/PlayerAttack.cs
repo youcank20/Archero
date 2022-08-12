@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -9,6 +10,7 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private Transform arrowTransform;
+    [SerializeField] private PlayerSkill playerSkill;
 
     private int _targetIndex;
     private float _targetDistance;
@@ -78,20 +80,54 @@ public class PlayerAttack : MonoBehaviour
 
                 _hasTarget = true;
 
-                transform.LookAt(EnemyList[_targetIndex].transform.position);
+                _playerMovement.LookAt(EnemyList[_targetIndex].transform.position);
             }
         }
         else
             _hasTarget = false;
     }
 
-    private void ShootAnArrow()
+    private void ShootArrow()
     {
         if (_playerMovement.PlayerState != State.Attack)
             return;
 
+        if (playerSkill.playerAbilities[2] == 0)
+        {
+            MakeArrow();
+        }
+        else
+        {
+            GameObject arrow01 = MakeArrow();
+
+            arrow01.transform.position -= arrow01.transform.right * 0.2f;
+
+            GameObject arrow02 = MakeArrow();
+
+            arrow02.transform.position += arrow02.transform.right * 0.2f;
+        }
+
+        if (playerSkill.playerAbilities[0] != 0)
+        {
+            StartCoroutine(Multishot(arrowTransform.position, _playerMovement.GetRotation()));
+        }
+    }
+
+    private GameObject MakeArrow()
+    {
         GameObject arrow = Instantiate(arrowPrefab, arrowTransform.position, Quaternion.identity);
 
-        arrow.transform.rotation = transform.rotation;
+        arrow.transform.rotation = _playerMovement.GetRotation();
+
+        return arrow;
+    }
+
+    IEnumerator Multishot(Vector3 position, Quaternion rotation)
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        GameObject arrow = Instantiate(arrowPrefab, position, Quaternion.identity);
+
+        arrow.transform.rotation = rotation;
     }
 }
