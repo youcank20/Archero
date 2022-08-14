@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class Joystick : MonoBehaviour
 {
     private static Joystick _instance;
 
@@ -16,15 +15,15 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
         }
     }
 
-    public Vector3 NormalizedDirection;
+    public Vector3 NormalizedDirection { get; private set; }
 
     [SerializeField] private Transform background;
     [SerializeField] private Transform touch;
     [SerializeField] private Transform center;
 
     private Vector3 _backgroundOriginalPosition;
-    private Vector3 _pointerDownPosition;
     private float _maxDistance;
+    private Vector3 _pointerDownPosition;
 
     private void Start()
     {
@@ -32,23 +31,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
         _maxDistance = background.GetComponent<RectTransform>().rect.height * 0.3f;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        background.position = Input.mousePosition;
-        _pointerDownPosition = Input.mousePosition;
-        center.rotation = Quaternion.Euler(new Vector3(0f, 0f, -90f));
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        background.position = _backgroundOriginalPosition;
-        touch.position = _backgroundOriginalPosition;
-        center.rotation = Quaternion.Euler(Vector3.zero);
-
-        NormalizedDirection = Vector3.zero;
-    }
-
-    public void OnDrag(PointerEventData eventData)
+    public void Drag()
     {
         NormalizedDirection = (Input.mousePosition - _pointerDownPosition).normalized;
 
@@ -61,5 +44,21 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 
         float directionAngle = Mathf.Atan2(NormalizedDirection.y, NormalizedDirection.x) * Mathf.Rad2Deg;
         center.rotation = Quaternion.Euler(new Vector3(0f, 0f, directionAngle - 90f));
+    }
+
+    public void PointerDown()
+    {
+        background.position = Input.mousePosition;
+        _pointerDownPosition = Input.mousePosition;
+        center.rotation = Quaternion.Euler(new Vector3(0f, 0f, -90f));
+    }
+
+    public void PointerUp()
+    {
+        background.position = _backgroundOriginalPosition;
+        touch.position = _backgroundOriginalPosition;
+        center.rotation = Quaternion.Euler(Vector3.zero);
+
+        NormalizedDirection = Vector3.zero;
     }
 }

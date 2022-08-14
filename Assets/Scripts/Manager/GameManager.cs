@@ -15,13 +15,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool IsPaused { get; private set; } = false;
+
     public void SetPause()
     {
         Time.timeScale = 0f;
+
+        IsPaused = true;
+
+        Joystick.Instance.PointerUp();
     }
 
     public void SetResume()
     {
         Time.timeScale = 1f;
+
+        IsPaused = false;
     }
 }
