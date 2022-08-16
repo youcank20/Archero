@@ -10,6 +10,12 @@ public class SkillSlotMachine : MonoBehaviour
     {
         public Transform SkillSetTransform;
         public List<Image> Images;
+
+        public SkillSet(Transform skillSetTransform, List<Image> images)
+        {
+            SkillSetTransform = skillSetTransform;
+            Images = images;
+        }
     }
 
     [SerializeField] private List<SkillSet> skillSets = new List<SkillSet>();

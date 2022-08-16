@@ -16,6 +16,15 @@ public class Room : MonoBehaviour
     private bool _isTopCenterPushed = false;
     private bool _isDoorOpened = false;
     private float _doorAngle = 0f;
+    private List<Coin> _coins = new List<Coin>();
+
+    private void Start()
+    {
+        for (int i = 0; i < EnemyList.Count; ++i)
+        {
+            EnemyList[i].GetComponent<Enemy>().CurrentRoom = this;
+        }
+    }
 
     private void Update()
     {
@@ -27,7 +36,13 @@ public class Room : MonoBehaviour
             }
             else
             {
-                _isCleared = true;
+                if (_coins.Count != 0)
+                {
+                    for (int i = 0; i < _coins.Count; ++i)
+                        _coins[i].MoveToPlayer(Player);
+                }
+                else
+                    _isCleared = true;
             }
 
             if (_isCleared)
@@ -65,5 +80,15 @@ public class Room : MonoBehaviour
                 _isDoorOpened = true;
             }
         }
+    }
+
+    public void AddCoin(Coin coin)
+    {
+        _coins.Add(coin);
+    }
+
+    public void RemoveCoin(Coin coin)
+    {
+        _coins.Remove(coin);
     }
 }

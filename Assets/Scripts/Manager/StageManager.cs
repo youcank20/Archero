@@ -1,10 +1,22 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
+    private static StageManager _instance;
+
+    public static StageManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = FindObjectOfType<StageManager>();
+
+            return _instance;
+        }
+    }
+
     [Serializable]
     struct RoomBundle
     {
