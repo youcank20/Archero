@@ -10,8 +10,15 @@ public class Coin : MonoBehaviour
 
     IEnumerator DropCoroutine()
     {
-        Vector3 startPoint = transform.position;
-        Vector3 endPoint = transform.position + new Vector3(Random.value, 0f, Random.value);
+        Vector3 startPoint = transform.position + Vector3.up * 0.25f;
+        float randomX = Random.Range(-1f, 1f);
+        float randomZ = 2f;
+        while (randomX * randomX + randomZ * randomZ > 1f)
+        {
+            randomZ = Random.Range(-1f, 1f);
+        }
+        Vector3 endPoint = startPoint + new Vector3(randomX, 0f, randomZ);
+
         float height = 3f;
         float accumulatedTime = 0f;
         float endTime = 1f;
@@ -30,6 +37,8 @@ public class Coin : MonoBehaviour
             {
                 transform.position = endPoint;
 
+                StageManager.Instance._currentRoom.AddCoin(this);
+
                 break;
             }
         }
@@ -41,5 +50,24 @@ public class Coin : MonoBehaviour
         float yPosition = 4f * timeRatio * (1f - timeRatio) * height;
 
         return Vector3.Lerp(startPoint, endPoint, timeRatio) + Vector3.up * yPosition;
+    }
+
+    public void MoveToPlayer(PlayerAttack player)
+    {
+        float distance = Vector3.Distance(player.transform.position, transform.position);
+
+        if (distance <= 0.5f)
+        {
+            player.GetCoin();
+
+            StageManager.Instance._currentRoom.RemoveCoin(this);
+
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Vector3 normalizedDirection = (player.transform.position - transform.position).normalized;
+            transform.position += normalizedDirection * Time.deltaTime * 10f;
+        }
     }
 }

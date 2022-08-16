@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -10,6 +12,10 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private Transform arrowTransform;
     [SerializeField] private PlayerSkill playerSkill;
+    [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private RectTransform experienceTransform;
+    [SerializeField] private TextMeshProUGUI levelUpText;
 
     private int _targetIndex;
     private float _targetDistance;
@@ -18,8 +24,13 @@ public class PlayerAttack : MonoBehaviour
     private bool _hasTarget = false;
     private Rigidbody _rigidbody;
     private PlayerMovement _playerMovement;
+    private int _coins = 0;
+    private int _level = 1;
+    private int _experiencePoint = 0;
+    private int _maxExperiencePoint = 12;
 
     private const float MAX_DISTANCE = 10f;
+    private const float MAX_EXPERIENCE_WIDTH = 490f;
 
     private void Start()
     {
@@ -128,5 +139,42 @@ public class PlayerAttack : MonoBehaviour
         GameObject arrow = Instantiate(arrowPrefab, position, Quaternion.identity);
 
         arrow.transform.rotation = rotation;
+    }
+
+    public void GetCoin()
+    {
+        ++_coins;
+        coinText.text = _coins.ToString();
+
+        ++_experiencePoint;
+        experienceTransform.sizeDelta = new Vector2(MAX_EXPERIENCE_WIDTH * _experiencePoint / _maxExperiencePoint, experienceTransform.rect.height);////
+
+        if (_experiencePoint >= _maxExperiencePoint)
+        {
+            ++_level;
+            levelText.text = "Lv." + _level.ToString();
+            StartCoroutine(LevelUpCoroutine());
+
+            _experiencePoint = 0;
+            experienceTransform.sizeDelta = new Vector2(0f, experienceTransform.rect.height);
+        }
+    }
+
+    IEnumerator LevelUpCoroutine()
+    {
+        while (levelUpText.rectTransform.anchoredPosition.y < 100f)
+        {
+            if (levelUpText.rectTransform.anchoredPosition.y < -50f && levelUpText.color.a < 1f)
+                levelUpText.color += new Color(0f, 0f, 0f, Time.deltaTime * 5f);
+
+            levelUpText.rectTransform.anchoredPosition += new Vector2(0f, Time.deltaTime * 200f);
+
+            if (levelUpText.rectTransform.anchoredPosition.y >= 50f && levelUpText.color.a > 0f)
+                levelUpText.color -= new Color(0f, 0f, 0f, Time.deltaTime * 5f);
+
+            yield return null;
+        }
+
+        levelUpText.rectTransform.anchoredPosition = new Vector2(0f, -100f);
     }
 }
