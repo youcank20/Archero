@@ -45,6 +45,8 @@ public class Enemy : Creature
 
     protected void Die()
     {
+        gameObject.GetComponent<Collider>().enabled = false;
+
         HPBackground.SetActive(false);
 
         ChangeState(State.Die);
