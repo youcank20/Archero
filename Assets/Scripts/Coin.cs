@@ -21,7 +21,7 @@ public class Coin : MonoBehaviour
 
         float height = 3f;
         float accumulatedTime = 0f;
-        float endTime = 1f;
+        float endTime = 0.4f;
 
         while (true)
         {

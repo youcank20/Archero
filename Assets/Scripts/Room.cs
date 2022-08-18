@@ -39,7 +39,10 @@ public class Room : MonoBehaviour
                 if (_coins.Count != 0)
                 {
                     for (int i = 0; i < _coins.Count; ++i)
-                        _coins[i].MoveToPlayer(Player);
+                    {
+                        if (_coins[i].transform.position.y <= 0.25f)
+                            _coins[i].MoveToPlayer(Player);
+                    }
                 }
                 else
                     _isCleared = true;

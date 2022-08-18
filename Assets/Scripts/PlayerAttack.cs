@@ -85,12 +85,12 @@ public class PlayerAttack : MonoBehaviour
 
             if (_targetIndex != -1)
             {
-                if (_playerMovement.PlayerState == State.Move)
+                if (Player.Instance.State == EState.Move)
                     return;
 
                 _hasTarget = true;
 
-                _playerMovement.LookAt(EnemyList[_targetIndex].transform.position);
+                Player.Instance.LookAt(EnemyList[_targetIndex].transform.position);
             }
         }
         else
@@ -99,7 +99,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void ShootArrow()
     {
-        if (_playerMovement.PlayerState != State.Attack)
+        if (Player.Instance.State != EState.Attack)
             return;
 
         if (playerSkill.playerAbilities[2] == 0)
@@ -119,7 +119,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (playerSkill.playerAbilities[0] != 0)
         {
-            StartCoroutine(Multishot(arrowTransform.position, _playerMovement.GetRotation()));
+            StartCoroutine(Multishot(arrowTransform.position, Player.Instance.GetRotation()));
         }
     }
 
@@ -127,7 +127,7 @@ public class PlayerAttack : MonoBehaviour
     {
         GameObject arrow = Instantiate(arrowPrefab, arrowTransform.position, Quaternion.identity);
 
-        arrow.transform.rotation = _playerMovement.GetRotation();
+        arrow.transform.rotation = Player.Instance.GetRotation();
 
         return arrow;
     }
@@ -147,7 +147,7 @@ public class PlayerAttack : MonoBehaviour
         coinText.text = _coins.ToString();
 
         ++_experiencePoint;
-        experienceTransform.sizeDelta = new Vector2(MAX_EXPERIENCE_WIDTH * _experiencePoint / _maxExperiencePoint, experienceTransform.rect.height);////
+        experienceTransform.sizeDelta = new Vector2(MAX_EXPERIENCE_WIDTH * _experiencePoint / _maxExperiencePoint, experienceTransform.rect.height);
 
         if (_experiencePoint >= _maxExperiencePoint)
         {
