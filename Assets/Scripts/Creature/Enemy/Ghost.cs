@@ -4,7 +4,7 @@ public class Ghost : Enemy
 {
     private void Start()
     {
-        MaxHp = 10;
-        Hp = 10;
+        maxHp = 10;
+        currentHp = 10;
     }
 }

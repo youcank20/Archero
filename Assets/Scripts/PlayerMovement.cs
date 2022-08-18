@@ -15,11 +15,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public State PlayerState { get; private set; } = State.Idle;
-
-    [SerializeField] private Animator animator;
-    [SerializeField] private Transform rotateTransform;
-
     private Rigidbody _rigidbody;
     private float _speed = 5f;
     private PlayerAttack _playerAttack;
@@ -36,37 +31,17 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector3 joystickDirection = new Vector3(Joystick.Instance.NormalizedDirection.x, 0, Joystick.Instance.NormalizedDirection.y);
 
-            transform.Translate(joystickDirection * _speed * Time.deltaTime, Space.World);
-            LookAt(transform.position + joystickDirection);
+            transform.Translate(joystickDirection * Time.deltaTime * _speed, Space.World);
+            Player.Instance.LookAt(transform.position + joystickDirection);
 
-            ChangeState(State.Move);
+            Player.Instance.ChangeState(EState.Move);
         }
         else
         {
             if (_playerAttack.HasTarget)
-                ChangeState(State.Attack);
+                Player.Instance.ChangeState(EState.Attack);
             else
-                ChangeState(State.Idle);
+                Player.Instance.ChangeState(EState.Idle);
         }
-    }
-
-    private void ChangeState(State state)
-    {
-        if (PlayerState == state)
-            return;
-
-        PlayerState = state;
-
-        animator.SetInteger("State", (int)PlayerState);
-    }
-
-    public void LookAt(Vector3 position)
-    {
-        rotateTransform.LookAt(position);
-    }
-
-    public Quaternion GetRotation()
-    {
-        return rotateTransform.rotation;
     }
 }
