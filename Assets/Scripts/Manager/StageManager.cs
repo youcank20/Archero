@@ -50,6 +50,7 @@ public class StageManager : MonoBehaviour
 
         Vector3 spawnPosition = _currentRoom.SpawnPoint.transform.position;
         Player.transform.position = spawnPosition;
+        Player.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         Transform mainCamera = Camera.main.transform;
         mainCamera.position = new Vector3(spawnPosition.x, mainCamera.position.y, spawnPosition.z - 5f);

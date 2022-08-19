@@ -103,19 +103,9 @@ public class PlayerAttack : MonoBehaviour
             return;
 
         if (playerSkill.playerAbilities[2] == 0)
-        {
             MakeArrow();
-        }
         else
-        {
-            GameObject arrow01 = MakeArrow();
-
-            arrow01.transform.position -= arrow01.transform.right * 0.2f;
-
-            GameObject arrow02 = MakeArrow();
-
-            arrow02.transform.position += arrow02.transform.right * 0.2f;
-        }
+            MakeArrow(2);
 
         if (playerSkill.playerAbilities[0] != 0)
         {
@@ -123,21 +113,32 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    private GameObject MakeArrow()
+    private void MakeArrow(int count = 1)
     {
-        GameObject arrow = Instantiate(arrowPrefab, arrowTransform.position, Quaternion.identity);
+        for (int i = 0; i < count; ++i)
+        {
+            GameObject arrow = ObjectPoolManager.Instance.Get("Arrow", transform, false);
 
-        arrow.transform.rotation = Player.Instance.GetRotation();
+            if (count == 1)
+                arrow.transform.position = arrowTransform.position;
+            else if (count == 2)
+            {
+                if (i == 0)
+                    arrow.transform.position = arrowTransform.position - arrow.transform.right * 0.2f;
+                else if (i == 1)
+                    arrow.transform.position = arrowTransform.position + arrow.transform.right * 0.2f;
+            }
 
-        return arrow;
+            arrow.transform.rotation = Player.Instance.GetRotation();
+        }
     }
 
     IEnumerator Multishot(Vector3 position, Quaternion rotation)
     {
         yield return new WaitForSeconds(0.2f);
 
-        GameObject arrow = Instantiate(arrowPrefab, position, Quaternion.identity);
-
+        GameObject arrow = ObjectPoolManager.Instance.Get("Arrow", transform, false);
+        arrow.transform.position = position;
         arrow.transform.rotation = rotation;
     }
 

@@ -14,7 +14,7 @@ public class Arrow : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             if (PlayerSkill.Instance.playerAbilities[3] == 0)
-                gameObject.SetActive(false);
+                ObjectPoolManager.Instance.Release(gameObject);
 
             other.GetComponent<Enemy>().MinusHp(Player.Instance.Damage);
         }

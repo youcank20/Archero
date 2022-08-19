@@ -10,7 +10,7 @@ public class Coin : MonoBehaviour
 
     IEnumerator DropCoroutine()
     {
-        Vector3 startPoint = transform.position + Vector3.up * 0.25f;
+        Vector3 startPoint = transform.position + Vector3.up * 0.2f;
         float randomX = Random.Range(-1f, 1f);
         float randomZ = 2f;
         while (randomX * randomX + randomZ * randomZ > 1f)
@@ -19,7 +19,7 @@ public class Coin : MonoBehaviour
         }
         Vector3 endPoint = startPoint + new Vector3(randomX, 0f, randomZ);
 
-        float height = 3f;
+        float height = 4f;
         float accumulatedTime = 0f;
         float endTime = 0.4f;
 
@@ -27,7 +27,7 @@ public class Coin : MonoBehaviour
         {
             accumulatedTime += Time.deltaTime;
 
-            if (accumulatedTime < endTime)
+            if (accumulatedTime <= endTime)
             {
                 transform.position = FlyParabola(startPoint, endPoint, height, accumulatedTime, endTime);
 
