@@ -7,7 +7,6 @@ public class Enemy : Creature
     public Room CurrentRoom { get; set; }
 
     [SerializeField] private GameObject coinPrefab;
-    //[SerializeField] private Image deadEffect;
 
     protected override void Die()
     {
@@ -19,7 +18,8 @@ public class Enemy : Creature
 
         isDead = true;
 
-        DropCoin();
+        InvokeRepeating("DropCoin", 0f, 0.1f);
+        Invoke("CancelDropCoin", 0.5f);
 
         CurrentRoom.EnemyList.Remove(gameObject);
 
@@ -28,14 +28,14 @@ public class Enemy : Creature
 
     private void DropCoin()
     {
-        int coinCount = 5;
+        GameObject coin = ObjectPoolManager.Instance.Get("Coin", transform.position);
 
-        for (int i = 0; i < coinCount; ++i)
-        {
-            GameObject coin = ObjectPoolManager.Instance.Get("Coin", transform.position);
+        coin.GetComponent<Coin>().Drop();
+    }
 
-            coin.GetComponent<Coin>().Drop();
-        }
+    private void CancelDropCoin()
+    {
+        CancelInvoke("DropCoin");
     }
 
     IEnumerator DeadEffectCoroutine()
