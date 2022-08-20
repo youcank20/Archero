@@ -10,7 +10,7 @@ public class Coin : MonoBehaviour
 
     IEnumerator DropCoroutine()
     {
-        Vector3 startPoint = transform.position + Vector3.up * 0.2f;
+        Vector3 startPoint = new Vector3(transform.position.x, 0.2f, transform.position.z);
         float randomX = Random.Range(-1f, 1f);
         float randomZ = 2f;
         while (randomX * randomX + randomZ * randomZ > 1f)
