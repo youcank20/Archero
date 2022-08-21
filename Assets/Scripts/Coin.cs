@@ -8,7 +8,7 @@ public class Coin : MonoBehaviour
         StartCoroutine(DropCoroutine());
     }
 
-    IEnumerator DropCoroutine()
+    private IEnumerator DropCoroutine()
     {
         Vector3 startPoint = new Vector3(transform.position.x, 0.2f, transform.position.z);
         float randomX = Random.Range(-1f, 1f);

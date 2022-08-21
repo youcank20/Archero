@@ -55,7 +55,7 @@ public class Creature : MonoBehaviour
             Die();
     }
 
-    IEnumerator MinusHPCoroutine()
+    private IEnumerator MinusHPCoroutine()
     {
         while (State != EState.Die && HPReduceTransform.rect.width > HPTransform.rect.width)
         {
