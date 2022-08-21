@@ -8,7 +8,7 @@ public class RandomWheel : MonoBehaviour
         StartCoroutine(TurnCoroutine());
     }
 
-    IEnumerator TurnCoroutine()
+    private IEnumerator TurnCoroutine()
     {
         float zAngle = -30f + UnityEngine.Random.Range(1f, 6f);
 

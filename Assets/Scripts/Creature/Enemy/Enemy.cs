@@ -38,10 +38,9 @@ public class Enemy : Creature
         CancelInvoke("DropCoin");
     }
 
-    IEnumerator DeadEffectCoroutine()
+    private IEnumerator DeadEffectCoroutine()
     {
-        GameObject deadEffectObject = ObjectPoolManager.Instance.Get("DeadEffect");
-        deadEffectObject.transform.SetParent(HPBackground.transform.parent, false);
+        GameObject deadEffectObject = ObjectPoolManager.Instance.Get("DeadEffect", HPBackground.transform.parent, false);
 
         Image deadEffect = deadEffectObject.GetComponent<Image>();
         InitializeDeadEffectImage(deadEffect);
@@ -73,6 +72,8 @@ public class Enemy : Creature
     {
         image.rectTransform.anchoredPosition3D = new Vector3(0f, -50f, 0f);
         image.rectTransform.sizeDelta = Vector2.zero;
+        image.rectTransform.localRotation = Quaternion.Euler(Vector3.zero);
+        image.rectTransform.localScale = Vector3.one;
         image.color = new Color(1f, 1f, 1f, 0.5f);
     }
 

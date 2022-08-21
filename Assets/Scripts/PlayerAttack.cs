@@ -102,10 +102,7 @@ public class PlayerAttack : MonoBehaviour
         if (Player.Instance.State != EState.Attack)
             return;
 
-        if (playerSkill.playerAbilities[2] == 0)
-            MakeArrow();
-        else
-            MakeArrow(2);
+        MakeArrow(playerSkill.playerAbilities[2] + 1);
 
         if (playerSkill.playerAbilities[0] != 0)
         {
@@ -119,21 +116,12 @@ public class PlayerAttack : MonoBehaviour
         {
             GameObject arrow = ObjectPoolManager.Instance.Get("Arrow", transform, false);
 
-            if (count == 1)
-                arrow.transform.position = arrowTransform.position;
-            else if (count == 2)
-            {
-                if (i == 0)
-                    arrow.transform.position = arrowTransform.position - arrow.transform.right * 0.2f;
-                else if (i == 1)
-                    arrow.transform.position = arrowTransform.position + arrow.transform.right * 0.2f;
-            }
-
+            arrow.transform.position = arrowTransform.position + arrow.transform.right * 0.2f * (1 - count + i * 2);
             arrow.transform.rotation = Player.Instance.GetRotation();
         }
     }
 
-    IEnumerator Multishot(Vector3 position, Quaternion rotation)
+    private IEnumerator Multishot(Vector3 position, Quaternion rotation)
     {
         yield return new WaitForSeconds(0.2f);
 
@@ -161,7 +149,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    IEnumerator LevelUpCoroutine()
+    private IEnumerator LevelUpCoroutine()
     {
         while (levelUpText.rectTransform.anchoredPosition.y < 100f)
         {
