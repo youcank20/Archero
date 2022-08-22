@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class HorizontalScroll : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private Scrollbar horizontalScrollbar;
-    [SerializeField] private Scrollbar[] verticalScrollbar = new Scrollbar[3];
+    [SerializeField] private Scrollbar[] verticalScrollbars = new Scrollbar[3];
+    [SerializeField] private Slider buttonSlider;
+    [SerializeField] private RectTransform[] buttonRectTransforms = new RectTransform[5];
 
     private float[] _panelPosition = new float[MAX_PANEL_COUNT];
     private float _distance;
@@ -27,7 +29,7 @@ public class HorizontalScroll : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
         _currentIndex = 2;
 
-        horizontalScrollbar.value = _panelPosition[_currentIndex];
+        SetHorizontalScrollbarAndButtonSlider(_panelPosition[_currentIndex]);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -36,6 +38,7 @@ public class HorizontalScroll : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     public void OnDrag(PointerEventData eventData)
     {
+        buttonSlider.value = horizontalScrollbar.value;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -73,7 +76,7 @@ public class HorizontalScroll : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     {
         while (Mathf.Abs(horizontalScrollbar.value - _targetValue) > 0.0005f)
         {
-            horizontalScrollbar.value = Mathf.Lerp(horizontalScrollbar.value, _targetValue, Time.deltaTime * 10f);
+            SetHorizontalScrollbarAndButtonSlider(Mathf.Lerp(horizontalScrollbar.value, _targetValue, Time.deltaTime * 10f));
 
             yield return null;
         }
@@ -81,15 +84,32 @@ public class HorizontalScroll : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         if (_targetIndex != _currentIndex)
             InitializeVerticalScrollbar(_currentIndex);
 
-        horizontalScrollbar.value = _targetValue;
+        SetHorizontalScrollbarAndButtonSlider(_targetValue);
+
+        buttonRectTransforms[_currentIndex].sizeDelta = new Vector2(120f, 120f);
+        buttonRectTransforms[_targetIndex].sizeDelta = new Vector2(240f, 120f);
         _currentIndex = _targetIndex;
     }
 
     private void InitializeVerticalScrollbar(int currentIndex)
     {
         if (currentIndex < 2)
-            verticalScrollbar[currentIndex].value = 1f;
+            verticalScrollbars[currentIndex].value = 1f;
         else if (currentIndex == MAX_PANEL_COUNT - 1)
-            verticalScrollbar[2].value = 1f;
+            verticalScrollbars[2].value = 1f;
+    }
+
+    public void OnClickButton(int index)
+    {
+        _targetIndex = index;
+        _targetValue = _panelPosition[_targetIndex];
+
+        StartCoroutine(HorizontalScrollCoroutine());
+    }
+
+    private void SetHorizontalScrollbarAndButtonSlider(float value)
+    {
+        horizontalScrollbar.value = value;
+        buttonSlider.value = value;
     }
 }
