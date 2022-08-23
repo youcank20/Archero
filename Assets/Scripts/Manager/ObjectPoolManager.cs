@@ -20,8 +20,8 @@ public class ObjectPoolManager : MonoBehaviour
 
     private Dictionary<string, PoolObject> _prefabDic;
     private Dictionary<string, PoolObjectData> _dataDic;
-    private Dictionary<string, Stack<PoolObject>> _poolDict;
-    private Dictionary<string, GameObject> _containerDict;
+    private Dictionary<string, Stack<PoolObject>> _poolDic;
+    private Dictionary<string, GameObject> _containerDic;
 
     private void Start()
     {
@@ -31,8 +31,8 @@ public class ObjectPoolManager : MonoBehaviour
 
         _prefabDic = new Dictionary<string, PoolObject>(count);
         _dataDic = new Dictionary<string, PoolObjectData>(count);
-        _poolDict = new Dictionary<string, Stack<PoolObject>>(count);
-        _containerDict = new Dictionary<string, GameObject>(count);
+        _poolDic = new Dictionary<string, Stack<PoolObject>>(count);
+        _containerDic = new Dictionary<string, GameObject>(count);
 
         for (int i = 0; i < poolObjectDataList.Count; ++i)
             Register(poolObjectDataList[i]);
@@ -40,11 +40,11 @@ public class ObjectPoolManager : MonoBehaviour
 
     private void Register(PoolObjectData data)
     {
-        if (_poolDict.ContainsKey(data.Key))
+        if (_poolDic.ContainsKey(data.Key))
             return;
 
         GameObject parentObject = new GameObject(data.Key + "Container");
-        _containerDict.Add(data.Key, parentObject);
+        _containerDic.Add(data.Key, parentObject);
 
         GameObject sampleObject = Instantiate(data.ObjectPrefab);
 
@@ -68,12 +68,12 @@ public class ObjectPoolManager : MonoBehaviour
 
         _prefabDic.Add(data.Key, poolObject);
         _dataDic.Add(data.Key, data);
-        _poolDict.Add(data.Key, pool);
+        _poolDic.Add(data.Key, pool);
     }
 
     public GameObject Get(string key)
     {
-        if (!_poolDict.TryGetValue(key, out Stack<PoolObject> pool))
+        if (!_poolDic.TryGetValue(key, out Stack<PoolObject> pool))
             return null;
 
         PoolObject poolObject;
@@ -108,11 +108,11 @@ public class ObjectPoolManager : MonoBehaviour
     {
         PoolObject poolObject = gameObject.GetComponent<PoolObject>();
 
-        if (!_poolDict.TryGetValue(poolObject.Key, out Stack<PoolObject> pool))
+        if (!_poolDic.TryGetValue(poolObject.Key, out Stack<PoolObject> pool))
             return;
 
         poolObject.Deactivate();
-        poolObject.transform.SetParent(_containerDict[poolObject.Key].transform);
+        poolObject.transform.SetParent(_containerDic[poolObject.Key].transform);
         pool.Push(poolObject);
     }
 }
