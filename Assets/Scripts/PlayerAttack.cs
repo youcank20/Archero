@@ -85,6 +85,9 @@ public class PlayerAttack : MonoBehaviour
 
             if (_targetIndex != -1)
             {
+                GameObject marker = UIManager.Instance.Get("TargetMarker", EnemyList[_targetIndex].transform);
+                marker.GetComponent<TargetMarker>().SetPosition(EnemyList[_targetIndex].transform.position);
+
                 if (Player.Instance.State == EState.Move)
                     return;
 
@@ -95,6 +98,9 @@ public class PlayerAttack : MonoBehaviour
         }
         else
             _hasTarget = false;
+
+        if (!_hasTarget)
+            UIManager.Instance.Release("TargetMarker");
     }
 
     private void ShootArrow()

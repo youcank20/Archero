@@ -17,12 +17,10 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private float _speed = 5f;
-    private PlayerAttack _playerAttack;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _playerAttack = GetComponent<PlayerAttack>();
     }
 
     private void FixedUpdate()
@@ -38,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if (_playerAttack.HasTarget)
+            if (Player.Instance.HasTarget())
                 Player.Instance.ChangeState(EState.Attack);
             else
                 Player.Instance.ChangeState(EState.Idle);

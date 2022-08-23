@@ -56,4 +56,9 @@ public class Player : Creature
     {
         HpText.text = currentHp.ToString();
     }
+
+    public bool HasTarget()
+    {
+        return GetComponent<PlayerAttack>().HasTarget;
+    }
 }
