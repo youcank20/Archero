@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -27,7 +28,22 @@ public class Player : Creature
         speed = 5f;
         damage = 100;
 
+        transform.position = Vector3.up * 25f;
+
         RefreshHpText();
+    }
+
+    public IEnumerator AppearCoroutine()
+    {
+        while (transform.position.y > 0f)
+        {
+            transform.position -= Vector3.up * Time.unscaledDeltaTime * 25f;
+
+            if (transform.position.y < 0f)
+                transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+
+            yield return null;
+        }
     }
 
     public new void ChangeState(EState state)

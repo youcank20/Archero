@@ -17,7 +17,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private RectTransform experienceTransform;
     [SerializeField] private TextMeshProUGUI levelUpText;
 
-    private int _targetIndex;
+    private int _targetIndex = -1;
     private float _targetDistance;
     private int _closestIndex;
     private float _closestDistance;
@@ -85,8 +85,7 @@ public class PlayerAttack : MonoBehaviour
 
             if (_targetIndex != -1)
             {
-                GameObject marker = UIManager.Instance.Get("TargetMarker", EnemyList[_targetIndex].transform);
-                marker.GetComponent<TargetMarker>().SetPosition(EnemyList[_targetIndex].transform.position);
+                UIManager.Instance.Get("TargetMarker").GetComponent<TargetMarker>().SetTarget(EnemyList[_targetIndex]);
 
                 if (Player.Instance.State == EState.Move)
                     return;

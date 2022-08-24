@@ -8,7 +8,7 @@ public class SkillSlotMachineTrigger : MonoBehaviour
         {
             GameManager.Instance.SetPause();
 
-            StartCoroutine(UICanvas.Instance.FadeOut(Content.SkillSlotMachine, true));
+            StartCoroutine(UICanvas.Instance.FadeOutCoroutine(Content.SkillSlotMachine, 0.5f, true));
         }
     }
 }

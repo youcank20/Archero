@@ -6,7 +6,7 @@ public class CameraMovement : MonoBehaviour
 
     private float _speed = 5f;
 
-    private const float CAMERA_Z_GAP = -5f;
+    private const float CAMERA_Z_GAP = -10f;
 
     private void Update()
     {

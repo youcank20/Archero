@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,6 +36,17 @@ public class StageManager : MonoBehaviour
 
     private int _currentStage = 0;
 
+    private void Start()
+    {
+        for (int i = 0; i < roomBundles.Count; ++i)
+        {
+            for (int j = 0; j < roomBundles[i].Rooms.Count; ++j)
+            {
+                roomBundles[i].Rooms[j].gameObject.SetActive(false);
+            }
+        }
+    }
+
     public bool IsCurrentRoomCleared()
     {
         return _currentRoom.IsCleared;
@@ -42,8 +54,21 @@ public class StageManager : MonoBehaviour
 
     public void MoveToNextStage()
     {
+        StartCoroutine(MoveToNextStageCoroutine());
+    }
+
+    private IEnumerator MoveToNextStageCoroutine()
+    {
+        StartCoroutine(UICanvas.Instance.FadeOutCoroutine(Content.NextStage, 1f));
+
+        while (UICanvas.Instance.GetPanelAlpha() < 1f)
+            yield return null;
+
         int bundleIndex = _currentStage / 10;
         int randomIndex = UnityEngine.Random.Range(0, roomBundles[bundleIndex].Rooms.Count);
+
+        if (roomBundles[bundleIndex].Rooms[randomIndex] != null)
+            _currentRoom.gameObject.SetActive(false);
 
         _currentRoom = roomBundles[bundleIndex].Rooms[randomIndex];
         roomBundles[bundleIndex].Rooms.RemoveAt(randomIndex);
@@ -54,6 +79,13 @@ public class StageManager : MonoBehaviour
 
         Transform mainCamera = Camera.main.transform;
         mainCamera.position = new Vector3(spawnPosition.x, mainCamera.position.y, spawnPosition.z - 5f);
+
+        _currentRoom.gameObject.SetActive(true);
+
+        StartCoroutine(UICanvas.Instance.FadeInCoroutine());
+
+        while (UICanvas.Instance.GetPanelAlpha() > 0f)
+            yield return null;
 
         _currentRoom.IsActived = true;
     }

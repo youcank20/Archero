@@ -8,7 +8,7 @@ public class RandomWheelSet : MonoBehaviour
         {
             GameManager.Instance.SetPause();
 
-            StartCoroutine(UICanvas.Instance.FadeOut(Content.RandomWheel, true));
+            StartCoroutine(UICanvas.Instance.FadeOutCoroutine(Content.RandomWheel, 0.5f, true));
         }
     }
 }
