@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public enum Content
 {
     Pause = 0,
-    RandomWheel = 1,
-    SkillSlotMachine = 2,
+    NextStage = 1,
+    RandomWheel = 2,
+    SkillSlotMachine = 3,
 }
 
 public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
@@ -30,6 +31,11 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
     [SerializeField] private GameObject randomWheelUISet;
     [SerializeField] private GameObject skillSlotMachineUISet;
 
+    private void Start()
+    {
+        panelImage.color = Color.black;
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
         if (!GameManager.Instance.IsPaused)
@@ -48,14 +54,14 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
             joystick.PointerUp();
     }
 
-    public IEnumerator FadeOut(Content content, bool value)
+    public IEnumerator FadeOutCoroutine(Content content, float alpha, bool value = true)
     {
-        while (panelImage.color.a < 0.5f)
+        while (panelImage.color.a < alpha)
         {
             panelImage.color += new Color(0f, 0f, 0f, Time.unscaledDeltaTime);
 
-            if (panelImage.color.a > 0.5f)
-                SetAlpha(0.5f);
+            if (panelImage.color.a > alpha)
+                SetAlpha(alpha);
 
             yield return null;
         }
@@ -63,7 +69,7 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
         SetContentSetActive(content, value);
     }
 
-    public IEnumerator FadeIn()
+    public IEnumerator FadeInCoroutine()
     {
         while (panelImage.color.a > 0f)
         {
@@ -87,6 +93,8 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
         {
             case Content.Pause:
                 break;
+            case Content.NextStage:
+                break;
             case Content.RandomWheel:
                 randomWheelUISet.SetActive(value);
                 break;
@@ -94,5 +102,10 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
                 skillSlotMachineUISet.SetActive(value);
                 break;
         }
+    }
+
+    public float GetPanelAlpha()
+    {
+        return panelImage.color.a;
     }
 }

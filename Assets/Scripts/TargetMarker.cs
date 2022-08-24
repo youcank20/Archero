@@ -2,22 +2,30 @@ using UnityEngine;
 
 public class TargetMarker : MonoBehaviour
 {
+    private GameObject _target;
     private bool _isGoingUp = false;
+    private float _yPosition = 4f;
 
-    private void Update()
+    public void SetTarget(GameObject targetObject)
     {
+        _target = targetObject;
+
         if (_isGoingUp)
         {
-            transform.position += Vector3.up * Time.deltaTime;
+            _yPosition += Time.deltaTime;
 
-            if (transform.position.y > 4f)
+            transform.position = _target.transform.position + Vector3.up * _yPosition;
+
+            if (_yPosition > 4f)
                 _isGoingUp = false;
         }
         else
         {
-            transform.position -= Vector3.up * Time.deltaTime;
+            _yPosition -= Time.deltaTime;
 
-            if (transform.position.y < 3.5f)
+            transform.position = _target.transform.position + Vector3.up * _yPosition;
+
+            if (_yPosition < 3.5f)
                 _isGoingUp = true;
         }
     }
@@ -25,10 +33,6 @@ public class TargetMarker : MonoBehaviour
     private void OnDisable()
     {
         _isGoingUp = false;
-    }
-
-    public void SetPosition(Vector3 targetPosition)
-    {
-        transform.position = targetPosition + Vector3.up * 4f;
+        _yPosition = 4f;
     }
 }

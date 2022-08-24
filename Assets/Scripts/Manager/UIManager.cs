@@ -48,14 +48,6 @@ public class UIManager : MonoBehaviour
         return gameObject;
     }
 
-    public GameObject Get(string key, Transform parentTransform)
-    {
-        GameObject newGameObject = Get(key);
-        newGameObject.transform.SetParent(parentTransform, true);
-
-        return newGameObject;
-    }
-
     public void Release(GameObject gameObject)
     {
         gameObject.transform.SetParent(_UIContainer.transform);
