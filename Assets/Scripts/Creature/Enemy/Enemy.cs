@@ -6,8 +6,6 @@ public class Enemy : Creature
 {
     public Room CurrentRoom { get; set; }
 
-    [SerializeField] private GameObject coinPrefab;
-
     protected override void Die()
     {
         gameObject.GetComponent<Collider>().enabled = false;
@@ -16,6 +14,7 @@ public class Enemy : Creature
 
         ChangeState(EState.Die);
 
+        speed = 0f;
         isDead = true;
 
         InvokeRepeating("DropCoin", 0f, 0.1f);
