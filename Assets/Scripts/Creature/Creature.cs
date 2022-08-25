@@ -53,6 +53,8 @@ public class Creature : MonoBehaviour
 
         if (currentHp <= 0)
             Die();
+        else
+            Hitted();
     }
 
     private IEnumerator MinusHPCoroutine()
@@ -70,6 +72,11 @@ public class Creature : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void Hitted()
+    {
+        ChangeState(EState.Hitted);
     }
 
     protected virtual void Die()

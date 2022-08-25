@@ -15,7 +15,7 @@ public class Bat : Enemy
         State = EState.Attack;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (State == EState.Die)
             return;

@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine;
 
 public class StartRoom : Room
 {
@@ -25,15 +26,19 @@ public class StartRoom : Room
 
     private IEnumerator StartGameSceneCoroutine()
     {
-        StartCoroutine(UICanvas.Instance.FadeInCoroutine());
+        Coroutine coroutine = StartCoroutine(UICanvas.Instance.FadeInCoroutine(true));
 
         while (UICanvas.Instance.GetPanelAlpha() > 0f)
             yield return null;
 
-        StartCoroutine(Player.Instance.AppearCoroutine());
+        StopCoroutine(coroutine);
+
+        coroutine = StartCoroutine(Player.Instance.AppearCoroutine());
 
         while (Player.Instance.transform.position.y > 0f)
             yield return null;
+
+        StopCoroutine(coroutine);
 
         GameManager.Instance.SetResume();
     }

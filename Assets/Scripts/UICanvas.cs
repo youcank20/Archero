@@ -54,11 +54,14 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
             joystick.PointerUp();
     }
 
-    public IEnumerator FadeOutCoroutine(Content content, float alpha, bool value = true)
+    public IEnumerator FadeOutCoroutine(Content content, float alpha, bool scaled, float speed = 1f, bool value = true)
     {
         while (panelImage.color.a < alpha)
         {
-            panelImage.color += new Color(0f, 0f, 0f, Time.unscaledDeltaTime);
+            if (scaled)
+                panelImage.color += new Color(0f, 0f, 0f, Time.deltaTime * speed);
+            else
+                panelImage.color += new Color(0f, 0f, 0f, Time.unscaledDeltaTime * speed);
 
             if (panelImage.color.a > alpha)
                 SetAlpha(alpha);
@@ -69,11 +72,14 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
         SetContentSetActive(content, value);
     }
 
-    public IEnumerator FadeInCoroutine()
+    public IEnumerator FadeInCoroutine(bool scaled, float speed = 1f)
     {
         while (panelImage.color.a > 0f)
         {
-            panelImage.color -= new Color(0f, 0f, 0f, Time.unscaledDeltaTime);
+            if (scaled)
+                panelImage.color -= new Color(0f, 0f, 0f, Time.deltaTime * speed);
+            else
+                panelImage.color -= new Color(0f, 0f, 0f, Time.unscaledDeltaTime * speed);
 
             if (panelImage.color.a < 0f)
                 SetAlpha(0f);

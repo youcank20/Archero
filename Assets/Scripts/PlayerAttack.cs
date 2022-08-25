@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -131,8 +130,7 @@ public class PlayerAttack : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         GameObject arrow = ObjectPoolManager.Instance.Get("Arrow", transform, false);
-        arrow.transform.position = position;
-        arrow.transform.rotation = rotation;
+        arrow.transform.SetPositionAndRotation(position, rotation);
     }
 
     public void GetCoin()

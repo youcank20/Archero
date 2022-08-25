@@ -59,10 +59,12 @@ public class StageManager : MonoBehaviour
 
     private IEnumerator MoveToNextStageCoroutine()
     {
-        StartCoroutine(UICanvas.Instance.FadeOutCoroutine(Content.NextStage, 1f));
+        Coroutine coroutine = StartCoroutine(UICanvas.Instance.FadeOutCoroutine(Content.NextStage, 1f, true, 5f));
 
         while (UICanvas.Instance.GetPanelAlpha() < 1f)
             yield return null;
+
+        StopCoroutine(coroutine);
 
         int bundleIndex = _currentStage / 10;
         int randomIndex = UnityEngine.Random.Range(0, roomBundles[bundleIndex].Rooms.Count);
@@ -82,10 +84,12 @@ public class StageManager : MonoBehaviour
 
         _currentRoom.gameObject.SetActive(true);
 
-        StartCoroutine(UICanvas.Instance.FadeInCoroutine());
+        coroutine = StartCoroutine(UICanvas.Instance.FadeInCoroutine(true, 10f));
 
         while (UICanvas.Instance.GetPanelAlpha() > 0f)
             yield return null;
+
+        StopCoroutine(coroutine);
 
         _currentRoom.IsActived = true;
     }
