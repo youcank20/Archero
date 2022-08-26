@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d2dcd4ea765834b50b2535ed9b33ec7c
+guid: d10335e732c8648a9aa7467c4ca0b7a9
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
@@ -15,6 +15,9 @@ ModelImporter:
   - first:
       74: -3100369314251171874
     second: Idle
+  - first:
+      74: 5871463921349519194
+    second: Skill
   externalObjects: {}
   materials:
     materialImportMode: 2
