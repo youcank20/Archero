@@ -33,23 +33,23 @@ public class Bat : Enemy
         speed = 5f;
     }
 
-    private void SetStateIdle()
+    protected override void SetStateIdle()
     {
         _idleCount = 2;
         _isAttack = false;
 
-        ChangeState(EState.Idle);
+        base.SetStateIdle();
 
         speed = 1f;
     }
 
-    private void SetStateAttack()
+    protected override void SetStateAttack()
     {
         --_idleCount;
 
         if (_idleCount == 0)
         {
-            ChangeState(EState.Attack);
+            base.SetStateAttack();
 
             speed = -1f;
         }

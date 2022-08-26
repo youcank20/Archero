@@ -20,16 +20,16 @@ public class Ghost : Enemy
         transform.Translate(rotateTransform.forward * Time.deltaTime * speed, Space.World);
     }
 
-    private void SetStateIdle()
+    protected override void SetStateIdle()
     {
-        ChangeState(EState.Idle);
+        base.SetStateIdle();
 
         speed = 1f;
     }
 
-    private void SetStateAttack()
+    protected override void SetStateAttack()
     {
-        ChangeState(EState.Attack);
+        base.SetStateAttack();
 
         speed = Random.Range(5f, 10f);
 
