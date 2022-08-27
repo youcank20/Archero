@@ -118,7 +118,7 @@ public class PlayerAttack : MonoBehaviour
     {
         for (int i = 0; i < count; ++i)
         {
-            GameObject arrow = ObjectPoolManager.Instance.Get("Arrow", transform, false);
+            GameObject arrow = ObjectPoolManager.Instance.Get("Arrow");
 
             arrow.transform.position = arrowTransform.position + arrow.transform.right * 0.2f * (1 - count + i * 2);
             arrow.transform.rotation = Player.Instance.GetRotation();
