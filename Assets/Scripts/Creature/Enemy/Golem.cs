@@ -98,7 +98,7 @@ public class Golem : Enemy
         {
             GameObject stone = ObjectPoolManager.Instance.Get("Stone", transform, false);
 
-            stone.transform.position = transform.position + Vector3.up;
+            stone.transform.position = transform.position + Vector3.up * 0.5f;
             stone.GetComponent<Stone>().SetRotate(rotateTransform.rotation, Vector3.up * 45f * (i - 1));
             stone.GetComponent<Stone>().SetDamage(100);
         }
