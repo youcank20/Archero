@@ -47,6 +47,9 @@ public class Creature : MonoBehaviour
     {
         currentHp -= damage;
 
+        GameObject damageText = ObjectPoolManager.Instance.Get("Damage", transform.position);
+        damageText.GetComponent<Damage>().Initialize(-damage);
+
         HPTransform.sizeDelta = new Vector2(MAX_HP_WIDTH * currentHp / maxHp, HPTransform.rect.height);
 
         StartCoroutine(MinusHPCoroutine());
