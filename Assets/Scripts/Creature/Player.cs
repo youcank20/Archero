@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : Creature
 {
@@ -21,12 +23,23 @@ public class Player : Creature
 
     [SerializeField] private TextMeshProUGUI HpText;
 
+    private List<GameObject> _HPLineList = new List<GameObject>();
+
     private void Start()
     {
-        maxHp = 600;
-        currentHp = 600;
+        maxHp = 1150;
+        currentHp = 1150;
         speed = 5f;
         damage = 100;
+
+        for (int i = 1; i < maxHp / 200f; ++i)
+        {
+            GameObject newHPLine = ObjectPoolManager.Instance.Get("HPLine", HPBackground.transform, false);
+
+            newHPLine.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(4f + (92f * 200f * i) / maxHp, 0f);
+
+            _HPLineList.Add(newHPLine);
+        }
 
         transform.position = Vector3.up * 25f;
 
@@ -64,6 +77,14 @@ public class Player : Creature
     public override void MinusHp(int damage)
     {
         base.MinusHp(damage);
+
+        for (int i = 0; i < _HPLineList.Count; ++i)
+        {
+            if (_HPLineList[i].GetComponent<RectTransform>().anchoredPosition.x < HPTransform.anchoredPosition.x + HPTransform.rect.width)
+                _HPLineList[i].SetActive(true);
+            else
+                _HPLineList[i].SetActive(false);
+        }
 
         RefreshHpText();
     }

@@ -24,7 +24,7 @@ public class Creature : MonoBehaviour
     [SerializeField] protected Transform rotateTransform;
     [SerializeField] protected GameObject HPBackground;
     [SerializeField] private RectTransform HPReduceTransform;
-    [SerializeField] private RectTransform HPTransform;
+    [SerializeField] protected RectTransform HPTransform;
 
     private const float MAX_HP_WIDTH = 92f;
 
