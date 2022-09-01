@@ -1,9 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StartRoom : Room
 {
     private bool _isInitialized = false;
+    private bool _isSpreadCompleted = false;
 
     protected override void Start()
     {
@@ -40,6 +42,39 @@ public class StartRoom : Room
 
         StopCoroutine(coroutine);
 
-        GameManager.Instance.SetResume();
+        coroutine = StartCoroutine(SpreadDustCoroutine());
+
+        while (!_isSpreadCompleted)
+            yield return null;
+
+        StopCoroutine(coroutine);
+
+        GameManager.Instance.SetContinue();
+    }
+
+    public IEnumerator SpreadDustCoroutine()
+    {
+        List<Dust> dusts = new List<Dust>();
+
+        for (int i = 0; i < 16; ++i)
+        {
+            Dust dust = ObjectPoolManager.Instance.Get("Dust").GetComponent<Dust>();
+            Coroutine coroutine = StartCoroutine(dust.DropDustCoroutine(Player.Instance.transform.position));
+
+            dusts.Add(dust);
+        }
+
+        while (dusts.Count > 0)
+        {
+            for (int i = dusts.Count - 1; i >= 0; --i)
+            {
+                if (dusts[i].IsReleased)
+                    dusts.RemoveAt(i);
+            }
+
+            yield return null;
+        }
+
+        _isSpreadCompleted = true;
     }
 }

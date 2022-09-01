@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         Joystick.Instance.PointerUp();
     }
 
-    public void SetResume()
+    public void SetContinue()
     {
         Time.timeScale = 1f;
 
