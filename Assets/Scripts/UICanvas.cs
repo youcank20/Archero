@@ -9,6 +9,7 @@ public enum Content
     NextStage = 1,
     RandomWheel = 2,
     SkillSlotMachine = 3,
+    Option = 4,
 }
 
 public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
@@ -30,6 +31,7 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
     [SerializeField] private Image panelImage;
     [SerializeField] private GameObject randomWheelUISet;
     [SerializeField] private GameObject skillSlotMachineUISet;
+    [SerializeField] private GameObject optionUISet;
 
     private void Start()
     {
@@ -107,11 +109,21 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
             case Content.SkillSlotMachine:
                 skillSlotMachineUISet.SetActive(value);
                 break;
+            case Content.Option:
+                optionUISet.SetActive(value);
+                break;
         }
     }
 
     public float GetPanelAlpha()
     {
         return panelImage.color.a;
+    }
+
+    public void OnClickPause()
+    {
+        GameManager.Instance.SetPause();
+
+        StartCoroutine(UICanvas.Instance.FadeOutCoroutine(Content.Option, 0.5f, false, 1f, true));
     }
 }

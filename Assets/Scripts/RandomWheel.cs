@@ -27,6 +27,6 @@ public class RandomWheel : MonoBehaviour
         UICanvas.Instance.SetContentSetActive(Content.RandomWheel, false);
         UICanvas.Instance.SetAlpha(0f);
 
-        GameManager.Instance.SetResume();
+        GameManager.Instance.SetContinue();
     }
 }
