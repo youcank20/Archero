@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,5 +33,22 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         IsPaused = false;
+    }
+
+    public void LoadMenuScene()
+    {
+        StartCoroutine(LoadMenuSceneCoroutine());
+    }
+
+    private IEnumerator LoadMenuSceneCoroutine()
+    {
+        StartCoroutine(UICanvas.Instance.FadeOutCoroutine(Content.Menu, 1f, false));
+
+        while (UICanvas.Instance.GetPanelAlpha() < 1f)
+            yield return null;
+
+        SetContinue();
+
+        SceneManager.LoadScene("Menu");
     }
 }

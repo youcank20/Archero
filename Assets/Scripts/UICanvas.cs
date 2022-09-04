@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum Content
@@ -10,6 +11,7 @@ public enum Content
     RandomWheel = 2,
     SkillSlotMachine = 3,
     Option = 4,
+    Menu = 5,
 }
 
 public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
@@ -111,6 +113,9 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
                 break;
             case Content.Option:
                 optionUISet.SetActive(value);
+                break;
+            case Content.Menu:
+                SceneManager.LoadScene("Menu");
                 break;
         }
     }
