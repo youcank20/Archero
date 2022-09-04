@@ -9,4 +9,21 @@ public class Option : MonoBehaviour
 
         GameManager.Instance.SetContinue();
     }
+
+    public void OnClickSound()
+    {
+    }
+
+    public void OnClickMusic()
+    {
+    }
+
+    public void OnClickMenu()
+    {
+        GameManager.Instance.LoadMenuScene();
+    }
+
+    public void OnClickCoin()
+    {
+    }
 }
