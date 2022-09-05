@@ -42,9 +42,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadMenuSceneCoroutine()
     {
-        StartCoroutine(UICanvas.Instance.FadeOutCoroutine(Content.Menu, 1f, false));
+        StartCoroutine(Option.Instance.FadeOutCoroutine(1f));
 
-        while (UICanvas.Instance.GetPanelAlpha() < 1f)
+        while (Option.Instance.GetPanelAlpha() < 1f)
             yield return null;
 
         SetContinue();
