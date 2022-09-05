@@ -11,7 +11,6 @@ public enum Content
     RandomWheel = 2,
     SkillSlotMachine = 3,
     Option = 4,
-    Menu = 5,
 }
 
 public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
@@ -56,6 +55,13 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
     {
         if (!GameManager.Instance.IsPaused)
             joystick.PointerUp();
+    }
+
+    public void OnClickPause()
+    {
+        GameManager.Instance.SetPause();
+
+        StartCoroutine(UICanvas.Instance.FadeOutCoroutine(Content.Option, 0.5f, false, 1f, true));
     }
 
     public IEnumerator FadeOutCoroutine(Content content, float alpha, bool scaled, float speed = 1f, bool value = true)
@@ -114,21 +120,11 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
             case Content.Option:
                 optionUISet.SetActive(value);
                 break;
-            case Content.Menu:
-                SceneManager.LoadScene("Menu");
-                break;
         }
     }
 
     public float GetPanelAlpha()
     {
         return panelImage.color.a;
-    }
-
-    public void OnClickPause()
-    {
-        GameManager.Instance.SetPause();
-
-        StartCoroutine(UICanvas.Instance.FadeOutCoroutine(Content.Option, 0.5f, false, 1f, true));
     }
 }
