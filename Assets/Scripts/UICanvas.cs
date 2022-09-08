@@ -11,6 +11,7 @@ public enum Content
     RandomWheel = 2,
     SkillSlotMachine = 3,
     Option = 4,
+    GameOver = 5,
 }
 
 public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
@@ -33,6 +34,7 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
     [SerializeField] private GameObject randomWheelUISet;
     [SerializeField] private GameObject skillSlotMachineUISet;
     [SerializeField] private GameObject optionUISet;
+    [SerializeField] private GameObject gameOverUISet;
 
     private void Start()
     {
@@ -119,6 +121,9 @@ public class UICanvas : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
                 break;
             case Content.Option:
                 optionUISet.SetActive(value);
+                break;
+            case Content.GameOver:
+                gameOverUISet.SetActive(value);
                 break;
         }
     }
