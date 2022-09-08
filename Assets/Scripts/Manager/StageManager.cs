@@ -54,7 +54,14 @@ public class StageManager : MonoBehaviour
 
     public void MoveToNextStage()
     {
-        StartCoroutine(MoveToNextStageCoroutine());
+        if (_currentStage != 5)
+            StartCoroutine(MoveToNextStageCoroutine());
+        else
+        {
+            GameManager.Instance.SetPause();
+
+            StartCoroutine(UICanvas.Instance.FadeOutCoroutine(Content.GameOver, 0.5f, false, 5f, true));
+        }
     }
 
     private IEnumerator MoveToNextStageCoroutine()
@@ -83,6 +90,8 @@ public class StageManager : MonoBehaviour
         mainCamera.position = new Vector3(spawnPosition.x, mainCamera.position.y, spawnPosition.z - 5f);
 
         _currentRoom.gameObject.SetActive(true);
+
+        ++_currentStage;
 
         coroutine = StartCoroutine(UICanvas.Instance.FadeInCoroutine(true, 10f));
 

@@ -35,9 +35,16 @@ public class GameManager : MonoBehaviour
         IsPaused = false;
     }
 
-    public void LoadMenuScene()
+    public void LoadMenuScene(bool value = true)
     {
-        StartCoroutine(LoadMenuSceneCoroutine());
+        if (value)
+            StartCoroutine(LoadMenuSceneCoroutine());
+        else
+        {
+            SetContinue();
+
+            SceneManager.LoadScene("Menu");
+        }
     }
 
     private IEnumerator LoadMenuSceneCoroutine()
