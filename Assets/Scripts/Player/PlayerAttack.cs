@@ -123,6 +123,50 @@ public class PlayerAttack : MonoBehaviour
             arrow.transform.position = arrowTransform.position + arrow.transform.right * 0.2f * (1 - count + i * 2);
             arrow.transform.rotation = Player.Instance.GetRotation();
         }
+
+        if (playerSkill.playerAbilities[5] != 0)
+        {
+            int arrowCount = playerSkill.playerAbilities[5];
+
+            for (int i = 0; i < arrowCount * 2; ++i)
+            {
+                GameObject arrow = ObjectPoolManager.Instance.Get("Arrow");
+
+                arrow.transform.position = arrowTransform.position;
+                arrow.transform.rotation = Player.Instance.GetRotation();
+                arrow.transform.Rotate(Vector3.up * (-45f + 90f * (i % 2)));
+                arrow.transform.position += arrow.transform.right * 0.2f * (1 - arrowCount + (i / 2) * 2);
+            }
+        }
+
+        if (playerSkill.playerAbilities[6] != 0)
+        {
+            int arrowCount = playerSkill.playerAbilities[6];
+
+            for (int i = 0; i < arrowCount * 2; ++i)
+            {
+                GameObject arrow = ObjectPoolManager.Instance.Get("Arrow");
+
+                arrow.transform.position = arrowTransform.position;
+                arrow.transform.rotation = Player.Instance.GetRotation();
+                arrow.transform.Rotate(Vector3.up * (-90f + 180f * (i % 2)));
+                arrow.transform.position += arrow.transform.right * 0.2f * (1 - arrowCount + (i / 2) * 2);
+            }
+        }
+
+        if (playerSkill.playerAbilities[7] != 0)
+        {
+            int arrowCount = playerSkill.playerAbilities[7];
+
+            for (int i = 0; i < arrowCount; ++i)
+            {
+                GameObject arrow = ObjectPoolManager.Instance.Get("Arrow");
+
+                arrow.transform.position = arrowTransform.position + arrow.transform.right * 0.2f * (1 - arrowCount + i * 2);
+                arrow.transform.rotation = Player.Instance.GetRotation();
+                arrow.transform.Rotate(Vector3.up * 180f);
+            }
+        }
     }
 
     private IEnumerator Multishot(Vector3 position, Quaternion rotation)
