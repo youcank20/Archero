@@ -11,6 +11,7 @@ public enum Ability
     DiagonalArrows = 5,
     SideArrows = 6,
     RearArrow = 7,
+    Headshot = 8,
 }
 
 public class PlayerSkill : MonoBehaviour
