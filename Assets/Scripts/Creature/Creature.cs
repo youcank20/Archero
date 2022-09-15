@@ -43,8 +43,11 @@ public class Creature : MonoBehaviour
         rotateTransform.LookAt(worldPosition);
     }
 
-    public virtual void MinusHp(int damage)
+    public virtual void MinusHp(int damage, bool headshot = false)
     {
+        if (headshot)
+            damage = currentHp;
+
         currentHp -= damage;
 
         GameObject damageText = ObjectPoolManager.Instance.Get("Damage", transform.position);

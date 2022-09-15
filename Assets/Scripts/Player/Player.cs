@@ -74,9 +74,9 @@ public class Player : Creature
         return rotateTransform.rotation;
     }
 
-    public override void MinusHp(int damage)
+    public override void MinusHp(int damage, bool headshot = false)
     {
-        base.MinusHp(damage);
+        base.MinusHp(damage, headshot);
 
         for (int i = 0; i < _HPLineList.Count; ++i)
         {
