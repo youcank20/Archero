@@ -119,6 +119,7 @@ public class PlayerAttack : MonoBehaviour
         for (int i = 0; i < count; ++i)
         {
             GameObject arrow = ObjectPoolManager.Instance.Get("Arrow");
+            arrow.GetComponent<Arrow>().SetEnemyListAndTargetIndex(EnemyList, _targetIndex);
 
             arrow.transform.position = arrowTransform.position + arrow.transform.right * 0.2f * (1 - count + i * 2);
             arrow.transform.rotation = Player.Instance.GetRotation();
@@ -131,6 +132,7 @@ public class PlayerAttack : MonoBehaviour
             for (int i = 0; i < arrowCount * 2; ++i)
             {
                 GameObject arrow = ObjectPoolManager.Instance.Get("Arrow");
+                arrow.GetComponent<Arrow>().SetEnemyListAndTargetIndex(EnemyList, _targetIndex);
 
                 arrow.transform.position = arrowTransform.position;
                 arrow.transform.rotation = Player.Instance.GetRotation();
@@ -146,6 +148,7 @@ public class PlayerAttack : MonoBehaviour
             for (int i = 0; i < arrowCount * 2; ++i)
             {
                 GameObject arrow = ObjectPoolManager.Instance.Get("Arrow");
+                arrow.GetComponent<Arrow>().SetEnemyListAndTargetIndex(EnemyList, _targetIndex);
 
                 arrow.transform.position = arrowTransform.position;
                 arrow.transform.rotation = Player.Instance.GetRotation();
@@ -161,6 +164,7 @@ public class PlayerAttack : MonoBehaviour
             for (int i = 0; i < arrowCount; ++i)
             {
                 GameObject arrow = ObjectPoolManager.Instance.Get("Arrow");
+                arrow.GetComponent<Arrow>().SetEnemyListAndTargetIndex(EnemyList, _targetIndex);
 
                 arrow.transform.position = arrowTransform.position + arrow.transform.right * 0.2f * (1 - arrowCount + i * 2);
                 arrow.transform.rotation = Player.Instance.GetRotation();
@@ -174,6 +178,8 @@ public class PlayerAttack : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         GameObject arrow = ObjectPoolManager.Instance.Get("Arrow", transform, false);
+        arrow.GetComponent<Arrow>().SetEnemyListAndTargetIndex(EnemyList, _targetIndex);
+
         arrow.transform.SetPositionAndRotation(position, rotation);
     }
 
